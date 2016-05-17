@@ -9,17 +9,29 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var scrollView: UIScrollView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        self.scrollView.contentSize = CGSize(width: screenW+300, height: screenH+300)
+        
+        scrollView.addHeaderWithCallback { 
+            self.performSelector(#selector(self.headerCallback))
+        }
+        scrollView.addFooterWithCallback { 
+            self.performSelector(#selector(self.footerCallback))
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func headerCallback() {
+        print("---")
     }
-
+    
+    func footerCallback() {
+        print("+++")
+    }
 
 }
 
