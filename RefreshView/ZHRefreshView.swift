@@ -211,6 +211,8 @@ extension ZHHeaderView {
             pullToRefresh()
         }
 
+        print(scrollView.dragging)
+
     }
     
     //结束拖拽
@@ -386,7 +388,7 @@ extension ZHFooterView {
                 footerBeginLoadMore()
             }
         }
-
+        
     }
     
     override func contentSizeChange(object object: AnyObject?, change: [String : AnyObject]?) {
