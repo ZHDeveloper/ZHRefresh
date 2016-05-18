@@ -79,6 +79,10 @@ extension ViewController:UITableViewDataSource,UITableViewDelegate {
         
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.tableView.headerBeginRefreshing()
+    }
+    
 }
 
 

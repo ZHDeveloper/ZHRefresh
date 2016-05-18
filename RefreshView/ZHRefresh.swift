@@ -16,7 +16,7 @@ private var kContentSize = "contentSize"
 
 extension UIScrollView {
     
-    var headerView:ZHHeaderView? {
+    private var headerView:ZHHeaderView {
         get{
             
             guard let view = (objc_getAssociatedObject(self, &kZHRefreshHeaderKey) as? ZHHeaderView) else {
@@ -37,7 +37,7 @@ extension UIScrollView {
             objc_setAssociatedObject(self, &kZHRefreshHeaderKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
         }
     }
-    var footerView:ZHFooterView? {
+    private var footerView:ZHFooterView {
         get{
             
             guard let view = (objc_getAssociatedObject(self, &kZHRefreshFooterKey) as? ZHFooterView) else {
@@ -61,30 +61,30 @@ extension UIScrollView {
     
     func addHeaderWithCallback(headerCallback:CompleteHandler) {
         
-        self.headerView?.handler = headerCallback
+        self.headerView.handler = headerCallback
         
     }
     
     func addFooterWithCallback(footerCallback:CompleteHandler) {
         
-        self.footerView?.handler = footerCallback
+        self.footerView.handler = footerCallback
         
     }
     
     func headerBeginRefreshing() {
-        self.headerView?.headerBeginRefresh()
+        self.headerView.headerBeginRefresh()
     }
     
     func headerEndRefreshing() {
-        self.headerView?.headerEndRefresh()
+        self.headerView.headerEndRefresh()
     }
     
     func footerBeginRefreshing() {
-        self.footerView?.footerBeginLoadMore()
+        self.footerView.footerBeginLoadMore()
     }
     
     func footerEndRefreshing() {
-        self.footerView?.footerEndLoadMore()
+        self.footerView.footerEndLoadMore()
     }
     
 }

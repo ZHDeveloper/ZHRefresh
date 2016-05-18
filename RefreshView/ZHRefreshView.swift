@@ -51,6 +51,9 @@ class ZHRefreshComponent: UIView {
         status = .pullToRefresh
         
         super.init(frame: frame)
+        
+        self.addSubview(indicatorView)
+        self.addSubview(titleLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -119,9 +122,7 @@ class ZHHeaderView: ZHRefreshComponent {
         
         indicatorView.hidden = true
         
-        self.addSubview(indicatorView)
         self.addSubview(arrowView)
-        self.addSubview(titleLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -299,8 +300,6 @@ class ZHFooterView: ZHRefreshComponent {
         titleLabel.text = "加载更多..."
         
         indicatorView.hidden = false
-        self.addSubview(indicatorView)
-        self.addSubview(titleLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
