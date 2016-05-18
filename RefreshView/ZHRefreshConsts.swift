@@ -10,7 +10,13 @@ import UIKit
 
 typealias CompleteHandler = ()->()
 
-let headerViewH: CGFloat = 44
+let headerViewH: CGFloat = 60
+let footerViewH: CGFloat = 44
 
 let screenH = UIScreen.mainScreen().bounds.size.height
 let screenW = UIScreen.mainScreen().bounds.size.width
+
+//刷新的状态
+enum ZHRefreshStatus {
+    case loading,pullToRefresh,releaseToRefresh,noMoreData
+}

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		536C43BF1CEC0B26009FAD12 /* refresh_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 536C43BE1CEC0B26009FAD12 /* refresh_arrow@2x.png */; };
+		536C43C31CEC1F12009FAD12 /* ZHRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536C43C21CEC1F12009FAD12 /* ZHRefreshView.swift */; };
 		537F351B1CEB0A71007420D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537F351A1CEB0A71007420D2 /* AppDelegate.swift */; };
 		537F351D1CEB0A71007420D2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537F351C1CEB0A71007420D2 /* ViewController.swift */; };
 		537F35201CEB0A71007420D2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 537F351E1CEB0A71007420D2 /* Main.storyboard */; };
@@ -14,7 +16,7 @@
 		537F35251CEB0A71007420D2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 537F35231CEB0A71007420D2 /* LaunchScreen.storyboard */; };
 		537F35301CEB0A71007420D2 /* RefreshViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537F352F1CEB0A71007420D2 /* RefreshViewTests.swift */; };
 		537F353B1CEB0A71007420D2 /* RefreshViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537F353A1CEB0A71007420D2 /* RefreshViewUITests.swift */; };
-		537F35491CEB0B70007420D2 /* ZHRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537F35481CEB0B70007420D2 /* ZHRefreshView.swift */; };
+		537F35491CEB0B70007420D2 /* ZHRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537F35481CEB0B70007420D2 /* ZHRefresh.swift */; };
 		537F354D1CEB1A8F007420D2 /* ZHRefreshConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537F354C1CEB1A8F007420D2 /* ZHRefreshConsts.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		536C43BE1CEC0B26009FAD12 /* refresh_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "refresh_arrow@2x.png"; sourceTree = "<group>"; };
+		536C43C21CEC1F12009FAD12 /* ZHRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZHRefreshView.swift; sourceTree = "<group>"; };
 		537F35171CEB0A71007420D2 /* RefreshView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RefreshView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		537F351A1CEB0A71007420D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		537F351C1CEB0A71007420D2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,7 +53,7 @@
 		537F35361CEB0A71007420D2 /* RefreshViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RefreshViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		537F353A1CEB0A71007420D2 /* RefreshViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshViewUITests.swift; sourceTree = "<group>"; };
 		537F353C1CEB0A71007420D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		537F35481CEB0B70007420D2 /* ZHRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZHRefreshView.swift; sourceTree = "<group>"; };
+		537F35481CEB0B70007420D2 /* ZHRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZHRefresh.swift; sourceTree = "<group>"; };
 		537F354C1CEB1A8F007420D2 /* ZHRefreshConsts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZHRefreshConsts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,7 +107,9 @@
 			children = (
 				537F351A1CEB0A71007420D2 /* AppDelegate.swift */,
 				537F351C1CEB0A71007420D2 /* ViewController.swift */,
-				537F35481CEB0B70007420D2 /* ZHRefreshView.swift */,
+				536C43BE1CEC0B26009FAD12 /* refresh_arrow@2x.png */,
+				537F35481CEB0B70007420D2 /* ZHRefresh.swift */,
+				536C43C21CEC1F12009FAD12 /* ZHRefreshView.swift */,
 				537F354C1CEB1A8F007420D2 /* ZHRefreshConsts.swift */,
 				537F351E1CEB0A71007420D2 /* Main.storyboard */,
 				537F35211CEB0A71007420D2 /* Assets.xcassets */,
@@ -237,6 +243,7 @@
 			files = (
 				537F35251CEB0A71007420D2 /* LaunchScreen.storyboard in Resources */,
 				537F35221CEB0A71007420D2 /* Assets.xcassets in Resources */,
+				536C43BF1CEC0B26009FAD12 /* refresh_arrow@2x.png in Resources */,
 				537F35201CEB0A71007420D2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,8 +270,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				537F351D1CEB0A71007420D2 /* ViewController.swift in Sources */,
-				537F35491CEB0B70007420D2 /* ZHRefreshView.swift in Sources */,
+				537F35491CEB0B70007420D2 /* ZHRefresh.swift in Sources */,
 				537F351B1CEB0A71007420D2 /* AppDelegate.swift in Sources */,
+				536C43C31CEC1F12009FAD12 /* ZHRefreshView.swift in Sources */,
 				537F354D1CEB1A8F007420D2 /* ZHRefreshConsts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,6 +498,7 @@
 				537F35411CEB0A71007420D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		537F35421CEB0A71007420D2 /* Build configuration list for PBXNativeTarget "RefreshViewTests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +507,7 @@
 				537F35441CEB0A71007420D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		537F35451CEB0A71007420D2 /* Build configuration list for PBXNativeTarget "RefreshViewUITests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +516,7 @@
 				537F35471CEB0A71007420D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

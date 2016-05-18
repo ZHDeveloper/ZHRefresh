@@ -8,25 +8,43 @@
 
 import UIKit
 
+private var identifier = "cellIdenti"
+
 class ViewController: UIViewController {
     
-    @IBOutlet weak var scrollView: UIScrollView!
+//    @IBOutlet weak var scrollView: UIScrollView!
 
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.scrollView.contentSize = CGSize(width: screenW+300, height: screenH+300)
+        self.automaticallyAdjustsScrollViewInsets = false
         
-        scrollView.addHeaderWithCallback { 
+        self.tableView.tableFooterView = UIView()
+        
+        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: identifier)
+        
+//        self.tableView.contentSize = CGSize(width: screenW, height: screenH+300)
+        
+        tableView.addHeaderWithCallback {
             self.performSelector(#selector(self.headerCallback))
         }
-        scrollView.addFooterWithCallback { 
+        tableView.addFooterWithCallback {
             self.performSelector(#selector(self.footerCallback))
         }
     }
     
     func headerCallback() {
-        print("---")
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(4 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            
+            print("正在玩命刷新中。。")
+            
+            self.tableView.headerEndRefreshing()
+            
+        }
     }
     
     func footerCallback() {
@@ -34,4 +52,23 @@ class ViewController: UIViewController {
     }
 
 }
+
+extension ViewController:UITableViewDataSource,UITableViewDelegate {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 100
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(identifier)
+        
+        cell?.textLabel?.text = "ijk"
+        
+        return cell!
+        
+    }
+    
+}
+
 
