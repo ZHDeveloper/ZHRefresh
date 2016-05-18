@@ -345,6 +345,8 @@ class ZHFooterView: ZHRefreshComponent {
         titleLabel.text = "加载更多..."
         
         indicatorView.hidden = false
+        
+        self.alpha = 0
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -362,6 +364,17 @@ extension ZHFooterView {
             return
         }
         
+        guard isRefreshing == false else {
+            return
+        }
+        
+        if scrollView.contentSize.height <= 0.0 || scrollView.contentOffset.y + scrollView.contentInset.top <= 0.0 {
+            self.alpha = 0.0
+            return
+        } else {
+            self.alpha = 1.0
+        }
+        
         if scrollView.contentSize.height + scrollView.contentInset.top > scrollView.bounds.size.height {
             // 内容超过一个屏幕 计算公式，判断是不是在拖在到了底部
             if scrollView.contentSize.height - scrollView.contentOffset.y + scrollView.contentInset.bottom  <= scrollView.bounds.size.height {
@@ -373,7 +386,6 @@ extension ZHFooterView {
                 footerBeginLoadMore()
             }
         }
-
 
     }
     
