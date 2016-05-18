@@ -203,7 +203,14 @@ extension ZHHeaderView {
         
         if refreshOffset > headerViewH {
             self.status = .releaseToRefresh
-            releaseToRefresh()
+            
+            if scrollView.dragging {
+                releaseToRefresh()
+            }
+            else
+            {
+                scrollViewDidEndDragging(scrollView)
+            }
         }
         else
         {
@@ -216,7 +223,7 @@ extension ZHHeaderView {
     }
     
     //结束拖拽
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(scrollView: UIScrollView) {
         
         let refreshOffset = -(scrollView.contentOffset.y+scrollView.contentInset.top)
         
