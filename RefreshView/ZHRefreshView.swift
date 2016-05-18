@@ -218,8 +218,6 @@ extension ZHHeaderView {
             pullToRefresh()
         }
 
-        print(scrollView.dragging)
-
     }
     
     //结束拖拽
