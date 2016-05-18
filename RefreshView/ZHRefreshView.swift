@@ -8,6 +8,9 @@
 
 import UIKit
 
+private var kContentSizeKey = "contentSize"
+private var kContentOffsetKey = "contentOffset"
+
 class ZHRefreshComponent: UIView {
     
     //回调方法
@@ -60,9 +63,31 @@ class ZHRefreshComponent: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        removeObserver()
+    }
+    
     override func willMoveToSuperview(newSuperview: UIView?) {
         super.willMoveToSuperview(newSuperview)
+        
+        removeObserver()
+        
         scrollView = newSuperview as? UIScrollView
+        
+        addObserver(scrollView!)
+    }
+    
+    func addObserver(scrollView:UIScrollView) {
+        
+        scrollView.addObserver(self, forKeyPath: kContentOffsetKey, options: [.New,.Initial], context: nil)
+        scrollView.addObserver(self, forKeyPath: kContentSizeKey, options: [.New,.Initial], context: nil)
+    }
+    
+    func removeObserver() {
+        
+        scrollView?.removeObserver(self, forKeyPath: kContentOffsetKey)
+        scrollView?.removeObserver(self, forKeyPath: kContentSizeKey)
+        
     }
     
     override func layoutSubviews() {
@@ -94,6 +119,29 @@ class ZHRefreshComponent: UIView {
     
 }
 
+// MARK: - KVO
+extension ZHRefreshComponent {
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+     
+        if keyPath == kContentSizeKey  {
+            contentSizeChange(object: object, change: change)
+        }
+        else if keyPath == kContentOffsetKey {
+            contentOffsetChange(object: object, change: change)
+        }
+    }
+    
+    func contentSizeChange(object object: AnyObject?, change: [String : AnyObject]?) {
+        
+    }
+    
+    func contentOffsetChange(object object: AnyObject?, change: [String : AnyObject]?) {
+        
+    }
+    
+}
+
 class ZHHeaderView: ZHRefreshComponent {
     
     private var insetTop:CGFloat = 0.0
@@ -101,7 +149,6 @@ class ZHHeaderView: ZHRefreshComponent {
     //重写父类的属性，设置代理方法
     override var scrollView:UIScrollView? {
         didSet {//设置代理属性
-            scrollView!.delegate = self
             insetTop = scrollView!.contentInset.top
         }
     }
@@ -143,9 +190,13 @@ class ZHHeaderView: ZHRefreshComponent {
     }
 }
 
-extension ZHHeaderView:UIScrollViewDelegate {
+extension ZHHeaderView {
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func contentOffsetChange(object object: AnyObject?, change: [String : AnyObject]?) {
+        
+        guard let scrollView = scrollView else {
+            return
+        }
         
         //下拉刷新
         let refreshOffset = -(scrollView.contentOffset.y+scrollView.contentInset.top)
@@ -159,7 +210,7 @@ extension ZHHeaderView:UIScrollViewDelegate {
             self.status = .pullToRefresh
             pullToRefresh()
         }
-        
+
     }
     
     //结束拖拽
@@ -171,12 +222,6 @@ extension ZHHeaderView:UIScrollViewDelegate {
             headerBeginRefresh()
         }
         
-        //上拉刷新
-        let loadMoreOffset = scrollView.contentSize.height - scrollView.contentOffset.y - (scrollView.frame.height - scrollView.contentInset.bottom)
-        
-        if (loadMoreOffset < -footerViewH) {
-            scrollView.footerBeginRefreshing()
-        }
     }
     
     //下拉刷新
@@ -310,12 +355,19 @@ class ZHFooterView: ZHRefreshComponent {
 
 extension ZHFooterView {
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func contentOffsetChange(object object: AnyObject?, change: [String : AnyObject]?) {
         
-    }
-    
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        //上拉刷新
+        guard let scrollView = scrollView else {
+            return
+        }
         
+        let loadMoreOffset = scrollView.contentSize.height - scrollView.contentOffset.y - (scrollView.frame.height - scrollView.contentInset.bottom)
+        
+        if (loadMoreOffset < -footerViewH) {
+            footerBeginLoadMore()
+        }
+
     }
     
     //开始加载更多
@@ -350,6 +402,5 @@ extension ZHFooterView {
             self.scrollView!.contentInset = inset
         }
     }
-
     
 }

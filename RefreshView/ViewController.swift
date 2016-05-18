@@ -12,9 +12,9 @@ private var identifier = "cellIdenti"
 
 class ViewController: UIViewController {
     
-//    @IBOutlet weak var scrollView: UIScrollView!
-
     @IBOutlet weak var tableView: UITableView!
+    
+    var count:Int = 25
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +24,8 @@ class ViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: identifier)
-        
-//        self.tableView.contentSize = CGSize(width: screenW, height: screenH+300)
+
+        tableView.allowsSelection = true
         
         tableView.addHeaderWithCallback {
             self.performSelector(#selector(self.headerCallback))
@@ -57,6 +57,8 @@ class ViewController: UIViewController {
             //结束刷新状态
             self.tableView.footerEndRefreshing()
             
+            self.count = 40
+            self.tableView.reloadData()
         }
         
     }
@@ -66,21 +68,31 @@ class ViewController: UIViewController {
 extension ViewController:UITableViewDataSource,UITableViewDelegate {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 25
+        return count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier)
         
-        cell?.textLabel?.text = "ijk"
+        cell!.textLabel!.text = "ijk"
         
         return cell!
         
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        
         self.tableView.headerBeginRefreshing()
+        
+        
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        self.tableView.headerBeginRefreshing()
+
     }
     
 }
