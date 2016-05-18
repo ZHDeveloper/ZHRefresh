@@ -37,10 +37,10 @@ class ViewController: UIViewController {
     
     func headerCallback() {
         
+        print("正在玩命刷新中。。。")
+        
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(4 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
-            
-            print("正在玩命刷新中。。")
             
             self.tableView.headerEndRefreshing()
             
@@ -48,6 +48,8 @@ class ViewController: UIViewController {
     }
     
     func footerCallback() {
+        
+        print("正在加载更多。。。")
         
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(4 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
