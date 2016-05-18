@@ -8,25 +8,19 @@
 
 import UIKit
 
-class ZHHeaderView: UIView {
+class ZHRefreshComponent: UIView {
+    
+    //回调方法
+    internal var handler:CompleteHandler?
     
     //是否正在刷新
     var isRefreshing:Bool = false
-    
+
     private var oldStatus:ZHRefreshStatus = .pullToRefresh
-    
-    private var insetTop:CGFloat = 0.0
     
     private var status:ZHRefreshStatus {
         didSet {
             oldStatus = oldValue
-        }
-    }
-    
-    weak var scrollView:UIScrollView? {
-        didSet {//设置代理属性
-            scrollView!.delegate = self
-            insetTop = scrollView!.contentInset.top
         }
     }
     
@@ -41,39 +35,22 @@ class ZHHeaderView: UIView {
         return indicatorView
     }()
     
-    //图片箭头
-    private let arrowView:UIImageView = {
-        
-        let image = UIImage(named: "refresh_arrow")
-        
-        let imageView = UIImageView(image: image)
-        
-        return imageView
-        
-    }()
-    
     private let titleLabel:UILabel = {
         
         let titleLabel = UILabel()
-        titleLabel.textColor = UIColor.init(white: 160.0 / 255.0, alpha: 1.0)
+        titleLabel.textColor = UIColor(white: 160.0 / 255.0, alpha: 1.0)
         titleLabel.font = UIFont.systemFontOfSize(14)
         titleLabel.text = "下拉刷新..."
-
+        
         return titleLabel
     }()
     
-    internal var headerCallback:CompleteHandler?
+    weak var scrollView:UIScrollView?
     
     override init(frame: CGRect) {
-        self.status = .pullToRefresh
+        status = .pullToRefresh
         
         super.init(frame: frame)
-        autoresizingMask = [.FlexibleLeftMargin,.FlexibleWidth,.FlexibleRightMargin]
-        
-        
-        self.addSubview(indicatorView)
-        self.addSubview(arrowView)
-        self.addSubview(titleLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -87,15 +64,82 @@ class ZHHeaderView: UIView {
     }
     
     override func layoutSubviews() {
+        
         super.layoutSubviews()
         
-        let s = self.bounds.size
-        let w = s.width
-        let h = s.height
+        let size = self.bounds.size
+        let width = size.width
+        let height = size.height
         
-        titleLabel.frame = CGRect.init(x: w / 2.0 - 36.0, y: 0.0, width: w - (w / 2.0 - 36.0), height: h)
-        indicatorView.center = CGPoint.init(x: titleLabel.frame.origin.x - 16.0, y: h / 2.0)
-        arrowView.frame = CGRect.init(x: titleLabel.frame.origin.x - 28.0, y: (h - 18.0) / 2.0, width: 18.0, height: 18.0)
+        indicatorView.sizeToFit()
+        titleLabel.sizeToFit()
+        
+        let indicatorViewSize = indicatorView.bounds.size
+        let titleLabelSize = titleLabel.bounds.size
+        
+        let margin:CGFloat = componentsMarin
+        
+        let indicatorViewX = (width-(titleLabelSize.width+indicatorViewSize.width+margin))*0.5
+        
+        let indicatorViewY = (height - indicatorViewSize.height)*0.5
+        
+        indicatorView.frame = CGRect(x: indicatorViewX, y: indicatorViewY, width: indicatorViewSize.width, height: indicatorViewSize.height)
+        
+        let titlelableX = indicatorViewX+margin+indicatorViewSize.width
+        
+        titleLabel.frame = CGRect(x: titlelableX, y: 0.0, width: titleLabelSize.width, height: height)
+    }
+    
+}
+
+class ZHHeaderView: ZHRefreshComponent {
+    
+    private var insetTop:CGFloat = 0.0
+
+    //重写父类的属性，设置代理方法
+    override var scrollView:UIScrollView? {
+        didSet {//设置代理属性
+            scrollView!.delegate = self
+            insetTop = scrollView!.contentInset.top
+        }
+    }
+    
+    //图片箭头
+    private let arrowView:UIImageView = {
+        
+        let image = UIImage(named: "refresh_arrow")
+        
+        let imageView = UIImageView(image: image)
+        
+        return imageView
+        
+    }()
+ 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        indicatorView.hidden = true
+        
+        self.addSubview(indicatorView)
+        self.addSubview(arrowView)
+        self.addSubview(titleLabel)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        arrowView.sizeToFit()
+        
+        let arrowViewSize = arrowView.bounds.size
+        
+        let arrowViewX = titleLabel.frame.origin.x-10-arrowViewSize.width
+        let arrowViewY = (self.bounds.height-arrowViewSize.height)*0.5
+        
+        arrowView.frame = CGRectMake(arrowViewX, arrowViewY, arrowViewSize.width, arrowViewSize.height)
     }
 }
 
@@ -127,6 +171,12 @@ extension ZHHeaderView:UIScrollViewDelegate {
             headerBeginRefresh()
         }
         
+        //上拉刷新
+        let loadMoreOffset = scrollView.contentSize.height - scrollView.contentOffset.y - (scrollView.frame.height - scrollView.contentInset.bottom)
+        
+        if (loadMoreOffset < -footerViewH) {
+            scrollView.footerBeginRefreshing()
+        }
     }
     
     //下拉刷新
@@ -164,7 +214,7 @@ extension ZHHeaderView:UIScrollViewDelegate {
     
     func headerBeginRefresh() {
         
-        guard isRefreshing == false,let refreshHandler = headerCallback,viewOfScroll = scrollView else {
+        guard isRefreshing == false,let refreshHandler = handler,viewOfScroll = scrollView else {
             return
         }
         
@@ -237,10 +287,73 @@ extension ZHHeaderView:UIScrollViewDelegate {
     
 }
 
-class ZHFooterView: UIView {
+class ZHFooterView: ZHRefreshComponent {
     
-    var footerCallback:CompleteHandler?
+    private var insetBottom:CGFloat = 0.0
     
+    override var scrollView: UIScrollView? {
+        didSet {
+            insetBottom = scrollView!.contentInset.bottom
+        }
+    }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        titleLabel.text = "加载更多..."
+        
+        self.addSubview(indicatorView)
+        self.addSubview(titleLabel)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+extension ZHFooterView {
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+    }
+    
+    //开始加载更多
+    func footerBeginLoadMore() {
+        
+        guard isRefreshing == false,let loadMoreHandler = handler else {
+            return
+        }
+        
+        isRefreshing = true
+        
+        UIView.animateWithDuration(0.5, animations: {
+            
+            var inset = self.scrollView!.contentInset
+            inset.bottom = inset.bottom + footerViewH
+            self.scrollView!.contentInset = inset
+
+            }) { (finish) in
+                //执行回调方法
+                loadMoreHandler()
+        }
+        
+    }
+    
+    func footerEndLoadMore() {
+        
+        isRefreshing = false
+        
+        UIView.animateWithDuration(0.5) {
+            var inset = self.scrollView!.contentInset
+            inset.bottom = self.insetBottom
+            self.scrollView!.contentInset = inset
+        }
+    }
+
     
 }

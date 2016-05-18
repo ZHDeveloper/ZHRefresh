@@ -13,6 +13,8 @@ typealias CompleteHandler = ()->()
 let headerViewH: CGFloat = 60
 let footerViewH: CGFloat = 44
 
+let componentsMarin:CGFloat = 10
+
 let screenH = UIScreen.mainScreen().bounds.size.height
 let screenW = UIScreen.mainScreen().bounds.size.width
 

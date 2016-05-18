@@ -44,14 +44,14 @@ extension UIScrollView {
             
             guard let view = (objc_getAssociatedObject(self, &kZHRefreshFooterKey) as? ZHFooterView) else {
                 
-                let frame = CGRect(x: 0, y: contentSize.height+contentInset.bottom, width: screenW, height: headerViewH)
+                let frame = CGRect(x: 0, y: contentSize.height+contentInset.bottom, width: screenW, height: footerViewH)
                 
                 let view = ZHFooterView(frame: frame)
                 self.footerView = view
                 
                 self.addSubview(view)
                 
-                view.backgroundColor = UIColor.yellowColor()
+//                view.backgroundColor = UIColor.yellowColor()
                 
                 return view
             }
@@ -65,13 +65,13 @@ extension UIScrollView {
     
     func addHeaderWithCallback(headerCallback:CompleteHandler) {
         
-        self.headerView?.headerCallback = headerCallback
+        self.headerView?.handler = headerCallback
         
     }
     
     func addFooterWithCallback(footerCallback:CompleteHandler) {
         
-        self.footerView?.footerCallback = footerCallback
+        self.footerView?.handler = footerCallback
         
     }
     
@@ -84,11 +84,11 @@ extension UIScrollView {
     }
     
     func footerBeginRefreshing() {
-        
+        self.footerView?.footerBeginLoadMore()
     }
     
     func footerEndRefreshing() {
-        
+        self.footerView?.footerEndLoadMore()
     }
     
 }
