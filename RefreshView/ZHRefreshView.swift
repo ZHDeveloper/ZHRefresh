@@ -364,8 +364,23 @@ extension ZHFooterView {
         
         let loadMoreOffset = scrollView.contentSize.height - scrollView.contentOffset.y - (scrollView.frame.height - scrollView.contentInset.bottom)
         
+        print(loadMoreOffset)
+        
         if (loadMoreOffset < -footerViewH) {
             footerBeginLoadMore()
+        }
+
+    }
+    
+    override func contentSizeChange(object object: AnyObject?, change: [String : AnyObject]?) {
+        
+        guard let scrollView = scrollView else {return}
+        
+        let targetY = scrollView.contentSize.height + insetBottom
+        if self.frame.origin.y != targetY {
+            var rect = self.frame
+            rect.origin.y = targetY
+            self.frame = rect
         }
 
     }

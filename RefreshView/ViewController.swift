@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var count:Int = 25
+    var count:Int = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +25,6 @@ class ViewController: UIViewController {
         
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: identifier)
 
-        tableView.allowsSelection = true
-        
         tableView.addHeaderWithCallback {
             self.performSelector(#selector(self.headerCallback))
         }
@@ -57,7 +55,7 @@ class ViewController: UIViewController {
             //结束刷新状态
             self.tableView.footerEndRefreshing()
             
-            self.count = 40
+            self.count += 5
             self.tableView.reloadData()
         }
         
@@ -83,17 +81,10 @@ extension ViewController:UITableViewDataSource,UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        
         self.tableView.headerBeginRefreshing()
-        
         
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
-        self.tableView.headerBeginRefreshing()
-
-    }
     
 }
 
