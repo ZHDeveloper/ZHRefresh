@@ -26,8 +26,6 @@ extension UIScrollView {
                 let view = ZHHeaderView(frame: frame)
                 self.headerView = view
                 
-//                view.backgroundColor = UIColor.redColor()
-                
                 self.addSubview(view)
                 
                 return view;
@@ -50,8 +48,6 @@ extension UIScrollView {
                 self.footerView = view
                 
                 self.addSubview(view)
-                
-//                view.backgroundColor = UIColor.yellowColor()
                 
                 return view
             }

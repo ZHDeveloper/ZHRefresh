@@ -29,7 +29,7 @@ class ZHRefreshComponent: UIView {
         
         let indicatorView = UIActivityIndicatorView.init(activityIndicatorStyle: .Gray)
         indicatorView.startAnimating()
-        indicatorView.hidesWhenStopped = true
+        indicatorView.hidesWhenStopped = false
         indicatorView.hidden = true
         
         return indicatorView
@@ -59,7 +59,6 @@ class ZHRefreshComponent: UIView {
     
     override func willMoveToSuperview(newSuperview: UIView?) {
         super.willMoveToSuperview(newSuperview)
-        
         scrollView = newSuperview as? UIScrollView
     }
     
@@ -214,7 +213,7 @@ extension ZHHeaderView:UIScrollViewDelegate {
     
     func headerBeginRefresh() {
         
-        guard isRefreshing == false,let refreshHandler = handler,viewOfScroll = scrollView else {
+        guard isRefreshing == false,let refreshHandler = handler else {
             return
         }
         
@@ -226,9 +225,9 @@ extension ZHHeaderView:UIScrollViewDelegate {
         
         UIView.animateKeyframesWithDuration(0.3, delay: 0, options: .BeginFromCurrentState, animations: {
             // 把 contentInsetTop 设为刷新头高度加上初始状态时的值，露出刷新头，保持在那个位置等待刷新结束
-            viewOfScroll.contentInset.top = headerViewH + self.insetTop
+            self.scrollView!.contentInset.top = headerViewH + self.insetTop
             // scrollIndicator，即旁边的滚动提示，看起来更好些，也可以不设置。
-            viewOfScroll.scrollIndicatorInsets = viewOfScroll.contentInset
+            self.scrollView!.scrollIndicatorInsets = self.scrollView!.contentInset
             
         }) { (finished: Bool) in
             //执行block
@@ -278,9 +277,6 @@ extension ZHHeaderView:UIScrollViewDelegate {
                 titleLabel.text = "正在刷新..."
                 break
                 
-            case .noMoreData:
-                titleLabel.text = "下拉刷新..."
-                break
         }
 
     }
@@ -302,6 +298,7 @@ class ZHFooterView: ZHRefreshComponent {
         
         titleLabel.text = "加载更多..."
         
+        indicatorView.hidden = false
         self.addSubview(indicatorView)
         self.addSubview(titleLabel)
     }

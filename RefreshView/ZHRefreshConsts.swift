@@ -20,5 +20,5 @@ let screenW = UIScreen.mainScreen().bounds.size.width
 
 //刷新的状态
 enum ZHRefreshStatus {
-    case loading,pullToRefresh,releaseToRefresh,noMoreData
+    case loading,pullToRefresh,releaseToRefresh
 }
