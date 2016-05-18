@@ -362,13 +362,18 @@ extension ZHFooterView {
             return
         }
         
-        let loadMoreOffset = scrollView.contentSize.height - scrollView.contentOffset.y - (scrollView.frame.height - scrollView.contentInset.bottom)
-        
-        print(loadMoreOffset)
-        
-        if (loadMoreOffset < -footerViewH) {
-            footerBeginLoadMore()
+        if scrollView.contentSize.height + scrollView.contentInset.top > scrollView.bounds.size.height {
+            // 内容超过一个屏幕 计算公式，判断是不是在拖在到了底部
+            if scrollView.contentSize.height - scrollView.contentOffset.y + scrollView.contentInset.bottom  <= scrollView.bounds.size.height {
+                footerBeginLoadMore()
+            }
+        } else {
+            //内容没有超过一个屏幕，这时拖拽高度大于1/2footer的高度就表示请求上拉
+            if scrollView.contentOffset.y + scrollView.contentInset.top >= footerViewH / 2.0 {
+                footerBeginLoadMore()
+            }
         }
+
 
     }
     
